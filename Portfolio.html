@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vishnu E Gireeshan — ADAS Validation Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="templatemo-quantix-style.css">
+<style>
+  :root {
+    --bg: #050A0F;
+    --surface: #0A1520;
+    --border: #0E2A3A;
+    --accent: #00D4FF;
+    --accent2: #00FF88;
+    --accent3: #FF6B35;
+    --text: #C8E8F0;
+    --muted: #4A7080;
+    --card: #0C1C2A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.18s ease;
+    opacity: 0.5;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    backdrop-filter: blur(12px);
+    background: rgba(5,10,15,0.75);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Orbitron', monospace;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 60px;
+    padding-top: 100px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: clamp(36px, 6vw, 88px);
+    line-height: 1;
+    letter-spacing: -1px;
+    color: #fff;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-name span {
+    color: var(--accent);
+    display: block;
+  }
+
+  .hero-role {
+    font-family: 'DM Mono', monospace;
+    font-size: clamp(13px, 1.5vw, 18px);
+    color: var(--muted);
+    margin-top: 24px;
+    letter-spacing: 1px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-role em { color: var(--accent3); font-style: normal; }
+
+  .hero-desc {
+    max-width: 620px;
+    margin-top: 28px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 20px;
+    margin-top: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 500;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  /* Decorative HUD element */
+  .hud-decoration {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 360px;
+    height: 360px;
+    opacity: 0;
+    animation: fadeIn 1.2s 1s forwards;
+  }
+
+  .hud-ring {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(0,212,255,0.15);
+    border-radius: 50%;
+    animation: spin 20s linear infinite;
+  }
+  .hud-ring::before {
+    content: '';
+    position: absolute;
+    top: -3px; left: 50%;
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 12px var(--accent);
+  }
+  .hud-ring-2 {
+    position: absolute;
+    inset: 40px;
+    border: 1px solid rgba(0,255,136,0.1);
+    border-radius: 50%;
+    animation: spin 12s linear infinite reverse;
+  }
+  .hud-ring-2::before {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 50%;
+    width: 6px; height: 6px;
+    background: var(--accent2);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 12px var(--accent2);
+  }
+  .hud-ring-3 {
+    position: absolute;
+    inset: 80px;
+    border: 1px dashed rgba(255,107,53,0.12);
+    border-radius: 50%;
+    animation: spin 8s linear infinite;
+  }
+  .hud-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hud-label {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-align: center;
+    line-height: 1.8;
+  }
+  .hud-years {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 36px;
+    color: #fff;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: flex;
+    gap: 0;
+    margin-top: 80px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    animation: fadeUp 0.8s 1.2s forwards;
+  }
+
+  .stat-item {
+    flex: 1;
+    padding: 28px 0;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-item::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+  .stat-item:hover::before { transform: scaleX(1); }
+
+  .stat-num {
+    font-family: 'Orbitron', monospace;
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--accent);
+    display: block;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* SECTION HEADER */
+  .section-pad { padding: 100px 60px; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 60px;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 2px;
+  }
+
+  .section-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: clamp(22px, 3vw, 36px);
+    color: #fff;
+    letter-spacing: 2px;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* EXPERIENCE */
+  #experience { background: var(--surface); }
+
+  .exp-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+    transition: border-color 0.3s;
+  }
+  .exp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--accent), transparent);
+  }
+  .exp-card:hover { border-color: rgba(0,212,255,0.3); }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .exp-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 600;
+    font-size: 16px;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+
+  .exp-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 1px;
+    background: rgba(0,255,136,0.08);
+    padding: 4px 12px;
+    border: 1px solid rgba(0,255,136,0.15);
+  }
+
+  .exp-company {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+  }
+
+  .exp-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .exp-bullets li {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--muted);
+    padding-left: 20px;
+    position: relative;
+  }
+  .exp-bullets li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 16px;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+  }
+  .project-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(0,212,255,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .project-card:hover {
+    border-color: rgba(0,212,255,0.3);
+    transform: translateY(-4px);
+  }
+
+  .project-number {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 48px;
+    color: rgba(0,212,255,0.06);
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+
+  .project-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .project-tag .dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent2);
+  }
+
+  .project-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 600;
+    font-size: 14px;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+    line-height: 1.4;
+  }
+
+  .project-desc {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .stack-chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    background: rgba(0,212,255,0.06);
+    border: 1px solid rgba(0,212,255,0.15);
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  /* SKILLS */
+  #skills { background: var(--surface); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .skill-group {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .skill-group::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+  .skill-group:nth-child(2)::before { background: linear-gradient(90deg, var(--accent2), transparent); }
+  .skill-group:nth-child(3)::before { background: linear-gradient(90deg, var(--accent3), transparent); }
+  .skill-group:nth-child(4)::before { background: linear-gradient(90deg, #A78BFA, transparent); }
+  .skill-group:nth-child(5)::before { background: linear-gradient(90deg, var(--accent), transparent); }
+  .skill-group:hover { border-color: rgba(0,212,255,0.25); }
+
+  .skill-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .skill-group:nth-child(2) .skill-group-title { color: var(--accent2); }
+  .skill-group:nth-child(3) .skill-group-title { color: var(--accent3); }
+  .skill-group:nth-child(4) .skill-group-title { color: #A78BFA; }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .skill-tag {
+    font-size: 12px;
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    color: var(--text);
+    transition: all 0.2s;
+  }
+  .skill-tag:hover {
+    background: rgba(0,212,255,0.08);
+    border-color: rgba(0,212,255,0.3);
+    color: var(--accent);
+  }
+
+  /* EDUCATION & CERTS */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .edu-grid { grid-template-columns: 1fr; }
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    #hero { padding: 120px 24px 60px; }
+    .hud-decoration { display: none; }
+    .section-pad { padding: 60px 24px; }
+    .stats-bar { flex-wrap: wrap; }
+    .stat-item { min-width: 50%; border-bottom: 1px solid var(--border); }
+  }
+
+  .edu-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
+  }
+  .edu-card:hover { border-color: rgba(0,212,255,0.3); }
+
+  .edu-degree {
+    font-family: 'Orbitron', monospace;
+    font-weight: 600;
+    font-size: 13px;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .edu-school {
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 6px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  .edu-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+
+  .cert-list {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .cert-chip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 16px 24px;
+    flex: 1;
+    min-width: 260px;
+    transition: border-color 0.3s;
+  }
+  .cert-chip:hover { border-color: rgba(0,212,255,0.3); }
+
+  .cert-icon {
+    width: 36px; height: 36px;
+    background: rgba(0,212,255,0.1);
+    border: 1px solid rgba(0,212,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .cert-name {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .cert-name span {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+    letter-spacing: 1px;
+  }
+
+  /* CONTACT */
+  #contact {
+    background: var(--surface);
+    text-align: center;
+  }
+
+  .contact-inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .contact-heading {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: clamp(28px, 5vw, 56px);
+    color: #fff;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+    line-height: 1.1;
+  }
+
+  .contact-heading span { color: var(--accent); }
+
+  .contact-sub {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 48px;
+    line-height: 1.7;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: rgba(0,212,255,0.06);
+    border: 1px solid rgba(0,212,255,0.2);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .contact-link:hover {
+    background: rgba(0,212,255,0.12);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 24px 60px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+  .footer-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 1px;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    background: var(--accent2);
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">VEG</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="about">
+  <div id="hero">
+    <p class="hero-tag">// System Online — ADAS Validation Engineer</p>
+    <h1 class="hero-name">
+      VISHNU<span>E GIREESHAN</span>
+    </h1>
+    <p class="hero-role">
+      4.4 Years · <em>Aptiv Components Ltd</em> · Bangalore, India
+    </p>
+    <p class="hero-desc">
+      ADAS System Validation Engineer specializing in bench-level ECU testing, test automation, and vehicle network communication. ISTQB Certified. Delivered zero defect escape across multi-OEM programs (Ford, Stellantis).
+    </p>
+    <div class="hero-cta">
+      <a href="mailto:vishnuegireeshan@gmail.com" class="btn-primary">
+        <span>⚡</span> Get In Touch
+      </a>
+      <a href="https://linkedin.com/in/vishnu-e-gireeshan-a175b92a9" target="_blank" class="btn-ghost">
+        <span>↗</span> LinkedIn
+      </a>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-num">4.4</span>
+        <span class="stat-label">Years Experience</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">30%</span>
+        <span class="stat-label">Test Time Reduced</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">2</span>
+        <span class="stat-label">OEM Programs</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">0</span>
+        <span class="stat-label">Defect Escapes</span>
+      </div>
+    </div>
+
+    <!-- HUD Decoration -->
+    <div class="hud-decoration">
+      <div class="hud-ring"></div>
+      <div class="hud-ring-2"></div>
+      <div class="hud-ring-3"></div>
+      <div class="hud-center">
+        <div class="hud-label">
+          <span class="hud-years">ADAS</span>
+          VALIDATION<br/>ENGINEER
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section-pad">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">EXPERIENCE</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="exp-card reveal">
+    <div class="exp-header">
+      <h3 class="exp-title">System Test Engineer — ADAS Validation</h3>
+      <span class="exp-date">SEP 2021 → JAN 2026</span>
+    </div>
+    <p class="exp-company">▸ APTIV COMPONENTS LTD · BANGALORE, INDIA</p>
+    <ul class="exp-bullets">
+      <li>Performed end-to-end system-level validation of ADAS ECUs in bench environments, covering full-loop, regression, delta, and smoke testing across Ford and Stellantis OEM programs.</li>
+      <li>Derived detailed system test cases from requirements with bidirectional traceability using Polarion ALM, aligned with ASPICE processes (SYS.2 → SYS.5).</li>
+      <li>Developed and maintained test automation frameworks using CAPL, Vector vTestStudio, and NI TestStand, reducing testing time by 30% and improving repeatability.</li>
+      <li>Set up ADAS ECU test benches integrating cameras (front windshield, 360° surround view), ultrasonic sensors, radar modules, and BLIS LEDs.</li>
+      <li>Validated CAN, UDS, CAN Transport Protocol, and diagnostic services (DTC/DID), ensuring protocol compliance across multi-SoC architectures (Aurix, Treerunner, EyeQ, TDA2P).</li>
+      <li>Automated NVM stability testing, UDS DTC fault validation, and SWDL procedures ensuring ECU robustness across power cycles.</li>
+      <li>Identified critical test cases for CI/CT pipelines; utilized Python for log analysis, large data extraction, and structured information segregation.</li>
+      <li>Delivered on-time test reports to customers with zero defect escape through peer reviews and structured defect management in Agile/JIRA sprints.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="section-pad">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">PROJECTS</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="projects-grid">
+    <div class="project-card reveal reveal-delay-1">
+      <div class="project-number">01</div>
+      <div class="project-tag"><span class="dot"></span>ITV Test Engineer</div>
+      <h3 class="project-title">STELLANTIS ADAS VALIDATION</h3>
+      <p class="project-desc">Led test design and automation for UDS, SWDL, CAN Low Layer, NVM, Camera, Radar, and CAN TP modules. Developed a UDS DTC automation framework improving diagnostic fault validation. Supported Radar alignment and environmental validation (thermal chamber, Bolab power waveform analysis).</p>
+      <div class="project-stack">
+        <span class="stack-chip">CAPL</span>
+        <span class="stack-chip">NI TestStand</span>
+        <span class="stack-chip">vTestStudio</span>
+        <span class="stack-chip">CANoe</span>
+        <span class="stack-chip">Polarion ALM</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal reveal-delay-2">
+      <div class="project-number">02</div>
+      <div class="project-tag"><span class="dot"></span>Assistant Test Engineer</div>
+      <h3 class="project-title">FORD DAT2.0 — ADAS VALIDATION</h3>
+      <p class="project-desc">End-to-end validation of UDS diagnostic services on ADAS test benches. Designed automated test scripts using NI LabVIEW and NI TestStand. Verified multi-SoC communication (Aurix, EyeQ, TDA2P) and ADAS features including BLIS, CTA/RCTB, and BTT via smoke testing of all connected sensors.</p>
+      <div class="project-stack">
+        <span class="stack-chip">NI LabVIEW</span>
+        <span class="stack-chip">NI TestStand</span>
+        <span class="stack-chip">CANoe</span>
+        <span class="stack-chip">CAPL</span>
+        <span class="stack-chip">Polarion ALM</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal reveal-delay-3">
+      <div class="project-number">03</div>
+      <div class="project-tag"><span class="dot"></span>M.Tech Thesis</div>
+      <h3 class="project-title">END-TO-END LANE KEEPING FOR SELF-DRIVING CARS</h3>
+      <p class="project-desc">Developed an end-to-end deep learning model using Convolutional Neural Networks to predict steering angles directly from camera images for autonomous lane-keeping functionality. Applied computer vision techniques for real-time inference on vehicle camera feeds.</p>
+      <div class="project-stack">
+        <span class="stack-chip">Python</span>
+        <span class="stack-chip">Deep Learning</span>
+        <span class="stack-chip">CNNs</span>
+        <span class="stack-chip">Computer Vision</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="section-pad">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title">SKILLS</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="skills-grid">
+    <div class="skill-group reveal reveal-delay-1">
+      <p class="skill-group-title">// Test Automation</p>
+      <div class="skill-tags">
+        <span class="skill-tag">CAPL</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">NI TestStand</span>
+        <span class="skill-tag">NI LabVIEW</span>
+        <span class="skill-tag">Vector vTestStudio</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal reveal-delay-2">
+      <p class="skill-group-title">// Vehicle Networks</p>
+      <div class="skill-tags">
+        <span class="skill-tag">CAN</span>
+        <span class="skill-tag">CAN FD</span>
+        <span class="skill-tag">UDS (ISO 14229)</span>
+        <span class="skill-tag">CAN TP</span>
+        <span class="skill-tag">DTC / DID</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal reveal-delay-3">
+      <p class="skill-group-title">// ADAS & Sensors</p>
+      <div class="skill-tags">
+        <span class="skill-tag">BLIS</span>
+        <span class="skill-tag">CTA / RCTB</span>
+        <span class="skill-tag">Surround View</span>
+        <span class="skill-tag">Front Camera</span>
+        <span class="skill-tag">Ultrasonic</span>
+        <span class="skill-tag">Radar</span>
+        <span class="skill-tag">EyeQ Vision</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal reveal-delay-1">
+      <p class="skill-group-title">// Tools & Platforms</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Vector CANoe</span>
+        <span class="skill-tag">CANape</span>
+        <span class="skill-tag">vFlash</span>
+        <span class="skill-tag">VN1640 / VN5620</span>
+        <span class="skill-tag">NI CAN-XNET</span>
+        <span class="skill-tag">Lauterbach</span>
+        <span class="skill-tag">Ford DET</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal reveal-delay-2">
+      <p class="skill-group-title">// Additional</p>
+      <div class="skill-tags">
+        <span class="skill-tag">C / C++</span>
+        <span class="skill-tag">MATLAB</span>
+        <span class="skill-tag">Simulink</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Plastic SCM</span>
+        <span class="skill-tag">JIRA</span>
+        <span class="skill-tag">Polarion ALM</span>
+        <span class="skill-tag">ASPICE</span>
+        <span class="skill-tag">Deep Learning</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" class="section-pad">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <h2 class="section-title">EDUCATION & CERTS</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="edu-grid">
+    <div class="edu-card reveal reveal-delay-1">
+      <h3 class="edu-degree">M.Tech in Automotive Electronics</h3>
+      <p class="edu-school">Birla Institute of Technology & Science (BITS), Pilani</p>
+      <p class="edu-year">2024 – 2025 · Bangalore</p>
+    </div>
+
+    <div class="edu-card reveal reveal-delay-2">
+      <h3 class="edu-degree">B.Tech in Electronics & Communication Engineering</h3>
+      <p class="edu-school">Government Engineering College, Kozhikode</p>
+      <p class="edu-year">2015 – 2019 · Calicut, Kerala</p>
+    </div>
+
+    <div class="cert-list reveal">
+      <div class="cert-chip">
+        <div class="cert-icon">✦</div>
+        <div class="cert-name">
+          ISTQB Foundation Level
+          <span>International Software Testing Qualifications Board</span>
+        </div>
+      </div>
+      <div class="cert-chip">
+        <div class="cert-icon">⚡</div>
+        <div class="cert-name">
+          Embedded Systems Course
+          <span>Vector India, Bangalore</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section-pad">
+  <div class="contact-inner">
+    <h2 class="contact-heading reveal">LET'S<span> CONNECT</span></h2>
+    <p class="contact-sub reveal">Open to new opportunities in ADAS validation, embedded systems, and automotive software engineering.</p>
+    <div class="contact-links reveal">
+      <a href="mailto:vishnuegireeshan@gmail.com" class="contact-link">
+        ✉ vishnuegireeshan@gmail.com
+      </a>
+      <a href="tel:+918157003924" class="contact-link">
+        📞 +91 8157003924
+      </a>
+      <a href="https://linkedin.com/in/vishnu-e-gireeshan-a175b92a9" target="_blank" class="contact-link">
+        ↗ LinkedIn Profile
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-text">© 2025 Vishnu E Gireeshan · ADAS Validation Engineer</p>
+  <div class="footer-status">
+    <span class="status-dot"></span>
+    <span>Available for Opportunities</span>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+    ring.style.left = mx + 'px';
+    ring.style.top = my + 'px';
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
